@@ -89,8 +89,24 @@ export default {
     },
     addSubmit: function () {
       this.$refs['pageForm'].validate((valid) => {
-        if(valid){
-          alert('提交成功!');
+        if (valid) {
+          //确认提示
+          this.$confirm('您确认提交吗？', '提示', { }).then(() => {
+            //调用page_add方法请求服务端的新增页面接口
+            cmsApi.page_add(this.pageForm).then(res => {
+              if (res.success) {
+                /*this.$message({
+                  message: '提交成功',
+                  type: 'success'
+                })*/
+                this.$message.success("提交成功")
+                //清空表单
+                this.$refs['pageForm'].resetFields();
+              } else {
+                this.$message.error("提交失败")
+              }
+            })
+          })
         }
       })
     },

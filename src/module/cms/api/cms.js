@@ -23,3 +23,9 @@ export const template_list = () => {
   //请求服务端的页面查询接口
   return http.requestQuickGet(apiUrl+'/cms/template/list');
 }
+
+//新增页面
+export const page_add = params =>{
+  return http.requestPost(apiUrl+'/cms/page/add',params);
+}
+
