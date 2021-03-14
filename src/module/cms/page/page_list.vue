@@ -38,6 +38,14 @@
       </el-table-column>
       <el-table-column prop="pageCreateTime" label="创建时间" width="180">
       </el-table-column>
+      <el-table-column label="操作" width="80">
+        <!--插槽获取当前行数据-->
+        <template slot-scope="page">
+          <el-button size="small" type="text"
+                     @click="edit(page.row.pageId)">编辑
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination background layout="prev, pager, next" @current-change="changePage" :page-size="this.params.size"
                    :total="total" :current-page="this.params.page" style="float:right;">
@@ -76,6 +84,12 @@ export default {
     changePage: function (page) {//page形参代表当前页码
       this.params.page = page;
       this.query()
+    },
+    edit: function (pageId) {
+      //打开修改页面
+      this.$router.push({
+        path: '/cms/page/edit/' + pageId
+      })
     }
   },
   created() {
