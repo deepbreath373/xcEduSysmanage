@@ -12,10 +12,13 @@
       </el-select>
       页面别名：<el-input v-model="params.pageAliase" style="width: 100px"></el-input>
       <el-button type="primary" v-on:click="query" size="small">查询</el-button>
+      <router-link :to="{path:'/cms/page/add/'}">
+        <el-button type="primary" size="small">新增页面</el-button>
+      </router-link>
     </el-form>
 
     <!--列表-->
-    <el-table :data="list" highlight-current-row v-loading="listLoading" style="width: 100%;">
+    <el-table :data="list" highlight-current-row style="width: 100%;">
       <el-table-column type="index" width="60">
       </el-table-column>
       <el-table-column prop="pageName" label="页面名称" width="120">
