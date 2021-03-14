@@ -38,12 +38,17 @@
       </el-table-column>
       <el-table-column prop="pageCreateTime" label="创建时间" width="180">
       </el-table-column>
-      <el-table-column label="操作" width="80">
+      <el-table-column label="操作" width="150">
         <!--插槽获取当前行数据-->
         <template slot-scope="page">
-          <el-button size="small" type="text"
-                     @click="edit(page.row.pageId)">编辑
-          </el-button>
+          <el-button-group>
+            <el-button size="mini" type="primary" icon="el-icon-edit"
+                       @click="edit(page.row.pageId)">编辑
+            </el-button>
+            <el-button size="mini" type="danger" icon="el-icon-delete"
+                       @click="del(page.row.pageId)">删除
+            </el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -89,6 +94,19 @@ export default {
       //打开修改页面
       this.$router.push({
         path: '/cms/page/edit/' + pageId
+      })
+    },
+    del: function (pageId) {
+      //调用服务端的接口
+      cmsApi.page_del(pageId).then((res) => {
+        this.$confirm('您确定删除吗？', '提示', {}).then(() => {
+          if (res.success) {
+            this.$message.success('删除成功')
+            this.query()
+          } else {
+            this.$message.error('删除失败')
+          }
+        })
       })
     }
   },
