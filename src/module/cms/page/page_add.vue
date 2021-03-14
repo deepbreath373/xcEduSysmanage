@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="pageForm" label-width="80px">
+    <el-form :model="pageForm" label-width="80px" :rules="pageFormRules" ref="pageForm">
       <el-form-item label="所属站点" prop="siteId">
         <el-select v-model="pageForm.siteId" placeholder="请选择站点">
           <el-option
@@ -45,6 +45,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="addSubmit">提交</el-button>
+      <el-button type="primary" @click="go_back">返回</el-button>
     </div>
   </div>
 </template>
@@ -66,6 +67,13 @@ export default {
         pagePhysicalPath: '',
         pageType: '',
         pageCreateTime: new Date()
+      },
+      pageFormRules: {
+        siteId: [{required: true, message: '请选择站点', trigger: 'blur'}],
+        templateId: [{required: true, message: '请选择模版', trigger: 'blur'}],
+        pageName: [{required: true, message: '请输入页面名称', trigger: 'blur'}],
+        pageWebPath: [{required: true, message: '请输入访问路径', trigger: 'blur'}],
+        pagePhysicalPath: [{required: true, message: '请输入物理路径', trigger: 'blur'}]
       }
     }
   },
@@ -75,12 +83,25 @@ export default {
       cmsApi.site_list().then((res) => {
         this.siteList = res.queryResult.list;
       }),
-      cmsApi.template_list().then((res) => {
-        this.templateList = res.queryResult.list;
+        cmsApi.template_list().then((res) => {
+          this.templateList = res.queryResult.list;
+        })
+    },
+    addSubmit: function () {
+      this.$refs['pageForm'].validate((valid) => {
+        if(valid){
+          alert('提交成功!');
+        }
       })
     },
-    addSubmit: function (){
-      alert('tj')
+    go_back: function () {
+      this.$router.push({
+        path: '/cms/page/list',
+        query: {
+          page: this.$route.query.page,
+          siteId: this.$route.query.siteId
+        }
+      })
     }
   },
   mounted() {

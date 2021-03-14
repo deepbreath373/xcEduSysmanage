@@ -10,9 +10,14 @@
           :value="item.siteId">
         </el-option>
       </el-select>
-      页面别名：<el-input v-model="params.pageAliase" style="width: 100px"></el-input>
+      页面别名：
+      <el-input v-model="params.pageAliase" style="width: 100px"></el-input>
       <el-button type="primary" v-on:click="query" size="small">查询</el-button>
-      <router-link :to="{path:'/cms/page/add/'}">
+      <!--将当前页码和siteId传入add的url-->
+      <router-link :to="{path:'/cms/page/add/',query:{
+        page:this.params.page,
+        siteId:this.params.siteId
+      }}">
         <el-button type="primary" size="small">新增页面</el-button>
       </router-link>
     </el-form>
@@ -51,15 +56,15 @@ export default {
       params: {
         page: 1,
         size: 10,
-        siteId:'',
-        pageAliase:''
+        siteId: '',
+        pageAliase: ''
       }
     }
   },
   methods: {
     query: function () {
       //调用服务端的接口
-      cmsApi.page_list(this.params.page, this.params.size,this.params).then((res) => {
+      cmsApi.page_list(this.params.page, this.params.size, this.params).then((res) => {
         //将res结果数据赋值给数据模型对象
         this.list = res.queryResult.list;
         this.total = res.queryResult.total;
@@ -72,6 +77,11 @@ export default {
       this.params.page = page;
       this.query()
     }
+  },
+  created() {
+    //取出路由中的参数，赋值给数据对象
+    this.params.page = Number.parseInt(this.$route.query.page || 1);
+    this.params.siteId = this.$route.query.siteId || '';
   },
   mounted() {
     this.query()
