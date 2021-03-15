@@ -33,6 +33,9 @@
       <el-form-item label="物理路径" prop="pagePhysicalPath">
         <el-input v-model="pageForm.pagePhysicalPath" auto-complete="off"></el-input>
       </el-form-item>
+      <el-form-item label="dataUrl" prop="dataUrl">
+        <el-input v-model="pageForm.dataUrl" auto-complete="off"></el-input>
+      </el-form-item>
       <el-form-item label="类型">
         <el-radio-group v-model="pageForm.pageType">
           <el-radio class="radio" label="0">静态</el-radio>
@@ -66,6 +69,7 @@ export default {
         pageParameter: '',
         pagePhysicalPath: '',
         pageType: '',
+        dataUrl: '',
         pageCreateTime: new Date()
       },
       pageFormRules: {
@@ -91,7 +95,7 @@ export default {
       this.$refs['pageForm'].validate((valid) => {
         if (valid) {
           //确认提示
-          this.$confirm('您确认提交吗？', '提示', { }).then(() => {
+          this.$confirm('您确认提交吗？', '提示', {}).then(() => {
             //调用page_add方法请求服务端的新增页面接口
             cmsApi.page_add(this.pageForm).then(res => {
               if (res.success) {
@@ -102,9 +106,9 @@ export default {
                 this.$message.success("提交成功")
                 //清空表单
                 this.$refs['pageForm'].resetFields();
-              } else if(res.message){
+              } else if (res.message) {
                 this.$message.error(res.message)
-              }else {
+              } else {
                 this.$message.error("提交失败")
               }
             })
