@@ -2,7 +2,7 @@
   <div>
     <!--查询表单-->
     <el-form :model="params">
-      <el-select v-model="params.siteId" placeholder="请选择站点">
+      <el-select v-model="params.siteId" clearable placeholder="请选择站点">
         <el-option
           v-for="item in siteList"
           :key="item.siteId"
@@ -12,6 +12,17 @@
       </el-select>
       页面别名：
       <el-input v-model="params.pageAliase" style="width: 100px"></el-input>
+      页面名称：
+      <el-input v-model="params.pageName" style="width: 100px"></el-input>
+      页面类型：
+      <el-select v-model="params.pageType" clearable placeholder="请选择类型">
+        <el-option
+          v-for="item in Types"
+          :key="item.value"
+          :label="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <el-button type="primary" v-on:click="query" size="small">查询</el-button>
       <!--将当前页码和siteId传入add的url-->
       <router-link :to="{path:'/cms/page/add/',query:{
@@ -70,8 +81,15 @@ export default {
         page: 1,
         size: 10,
         siteId: '',
-        pageAliase: ''
-      }
+        pageAliase: '',
+        pageName: '',
+        pageType: ''
+      },
+      Types: [{
+        value: '0'
+      }, {
+        value: '1'
+      }]
     }
   },
   methods: {
