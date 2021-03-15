@@ -10,10 +10,10 @@
           :value="item.siteId">
         </el-option>
       </el-select>
-      页面别名：
-      <el-input v-model="params.pageAliase" style="width: 100px"></el-input>
       页面名称：
       <el-input v-model="params.pageName" style="width: 100px"></el-input>
+      页面别名：
+      <el-input v-model="params.pageAliase" style="width: 100px"></el-input>
       页面类型：
       <el-select v-model="params.pageType" clearable placeholder="请选择类型">
         <el-option
@@ -115,9 +115,9 @@ export default {
       })
     },
     del: function (pageId) {
-      //调用服务端的接口
-      cmsApi.page_del(pageId).then((res) => {
-        this.$confirm('您确定删除吗？', '提示', {}).then(() => {
+      this.$confirm('您确定删除吗？', '提示', {}).then(() => {
+        //调用服务端的接口
+        cmsApi.page_del(pageId).then((res) => {
           if (res.success) {
             this.$message.success('删除成功')
             this.query()
