@@ -49,7 +49,7 @@
       </el-table-column>
       <el-table-column prop="pageCreateTime" label="创建时间" width="180">
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="200">
         <!--插槽获取当前行数据-->
         <template slot-scope="page">
           <el-button-group>
@@ -58,6 +58,9 @@
             </el-button>
             <el-button size="mini" type="danger" icon="el-icon-delete"
                        @click="del(page.row.pageId)">删除
+            </el-button>
+            <el-button icon="el-icon-s-order" type="info" size="mini"
+                       @click="preview(page.row.pageId)">页面预览
             </el-button>
           </el-button-group>
         </template>
@@ -126,6 +129,10 @@ export default {
           }
         })
       })
+    },
+    preview: function (pageId){
+      //打开浏览器窗口
+      window.open("http://www.xuecheng.com/cms/preview/"+pageId);
     }
   },
   created() {
