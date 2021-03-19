@@ -59,8 +59,13 @@
             <el-button size="mini" type="danger" icon="el-icon-delete"
                        @click="del(page.row.pageId)">删除
             </el-button>
-            <el-button icon="el-icon-s-order" type="info" size="mini"
-                       @click="preview(page.row.pageId)">页面预览
+          </el-button-group>
+          <el-button-group>
+            <el-button icon="el-icon-reading" type="info" size="mini"
+                       @click="preview(page.row.pageId)">预览
+            </el-button>
+            <el-button icon="el-icon-upload" type="primary" size="mini"
+                       @click="postPage(page.row.pageId)">发布
             </el-button>
           </el-button-group>
         </template>
@@ -133,6 +138,20 @@ export default {
     preview: function (pageId){
       //打开浏览器窗口
       window.open("http://www.xuecheng.com/cms/preview/"+pageId);
+    },
+    postPage: function (pageId){
+      this.$confirm('确认发布该页面吗？','提示',{}).then(() => {
+        cmsApi.page_postPage(pageId).then((res) => {
+          if(res.success){
+            console.log('发布页面id='+pageId);
+            this.$message.success('发布成功，请稍后查看结果');
+          }else{
+            this.$message.error('发布失败');
+          }
+        });
+      }).catch(() => {
+
+      })
     }
   },
   created() {
